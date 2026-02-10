@@ -1,15 +1,8 @@
+import { WS_URL } from "@/lib/ws";
 import Rule from "../Rule";
 
 async function get_todays_wordle() {
-  let date = new Date();
-  let year = date.getFullYear();
-  let month = date.getMonth() + 1;
-  let day = date.getDate();
-
-  let url = `https://www.nytimes.com/svc/wordle/v2/${year}-${("0" + month).slice(-2)}-${("0" + day).slice(-2)}.json`;
-  // url = 'https://corsproxy.io/?' + encodeURIComponent(url);   // CORS proxy
-  url = "https://corsproxy.io/?url=" + encodeURIComponent(url); // CORS proxy
-
+  let url = WS_URL + "/wordle";
   const options = {
     method: "GET",
   };

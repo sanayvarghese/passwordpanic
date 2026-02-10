@@ -1,4 +1,4 @@
-const WS_URL =
+export const WS_URL =
   // Public env var for configuring WebSocket endpoint in production
   process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:3001";
 
