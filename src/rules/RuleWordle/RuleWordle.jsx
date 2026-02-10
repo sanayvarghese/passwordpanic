@@ -2,7 +2,7 @@ import { WS_URL } from "@/lib/ws";
 import Rule from "../Rule";
 
 async function get_todays_wordle() {
-  let url = WS_URL + "/wordle";
+  let url = WS_URL.replace("wss", "https") + "/wordle";
   const options = {
     method: "GET",
   };
