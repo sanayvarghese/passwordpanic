@@ -1,0 +1,156 @@
+.container {
+  width: 576px;
+  max-width: calc(100% - 20px);
+  margin: 0 auto;
+  padding: 5px;
+  min-height: calc(100vh - 50px);
+}
+
+.footer {
+  font-size: 12px;
+  width: 100%;
+  color: #151515;
+  text-align: center;
+  padding-bottom: 2px;
+}
+
+.title {
+  text-align: center;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 60px auto;
+  justify-content: center;
+  margin-top: 20px;
+  font-family: var(--font-climate-crisis) !important;
+  margin-bottom: 40px;
+  font-size: 30px;
+
+  font-weight: bold;
+  color: #dabe8a;
+}
+.title_text {
+  font-size: 30px;
+
+  font-weight: bold;
+  color: #dabe8a;
+}
+.introduction {
+  text-align: center;
+  font-size: 15px;
+  margin-top: 50px;
+  margin-bottom: 60px;
+}
+
+.selectMode {
+  background: rgb(253, 240, 244);
+  padding: 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  min-width: 400px;
+}
+
+.selectMode h2 {
+  margin-bottom: 2rem;
+  font-family: "Poppins", sans-serif;
+  color: #595959;
+}
+
+.formContainer {
+  background: white;
+  padding: 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  min-width: 400px;
+}
+
+.formContainer h2 {
+  margin-bottom: 2rem;
+  color: #333;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+}
+
+.inputGroup {
+  margin-bottom: 1.5rem;
+}
+
+.inputGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+}
+
+.primaryButton {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #1e1f13 0%, #41423c 100%);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(44, 110, 14, 0.4);
+}
+
+.secondaryButton {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  background: #e0e5dd;
+  color: #424242;
+  border: 2px solid #cfe0cc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.secondaryButton:hover {
+  background: #cfe0cc;
+}
+
+.backButton {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: #666;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.backButton:hover {
+  color: #333;
+}

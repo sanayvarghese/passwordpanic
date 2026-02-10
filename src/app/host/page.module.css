@@ -1,0 +1,262 @@
+/* .container {
+  min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+} */
+
+.container {
+  width: 576px;
+  max-width: calc(100% - 20px);
+  margin: 0 auto;
+  padding: 10px;
+  min-height: calc(100vh - 50px);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  color: #3eab50;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.roomCodeSection {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.roomCodeSection h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.roomCode {
+  font-size: 3rem;
+  font-weight: bold;
+  letter-spacing: 0.5rem;
+  color: #66ea7c;
+  margin: 1rem 0;
+  font-family: "Courier New", monospace;
+}
+
+.statsSection {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  margin-bottom: 2rem;
+}
+
+.statsSection h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.noPlayers {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+.playersList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.playerCard {
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 0.5rem;
+  border-left: 4px solid #66ea92;
+}
+
+.playerName {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.playerStats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.completed {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+.actions {
+  text-align: center;
+}
+
+.startButton {
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #3e9149 0%, #27332b 100%);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.startButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(174, 240, 160, 0.4);
+}
+
+.startButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.stopButton {
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.stopButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
+}
+
+.timerSection {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.timerSection h2 {
+  margin-top: 0;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.timer {
+  font-size: 3rem;
+  font-weight: bold;
+  font-family: "Courier New", monospace;
+  color: #333;
+}
+
+.loading {
+  text-align: center;
+  color: rgb(139, 92, 92);
+  font-size: 1.2rem;
+  padding: 2rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.error {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.error h2 {
+  color: #d32f2f;
+  margin-top: 0;
+}
+
+.error p {
+  color: #666;
+  margin: 1rem 0;
+}
+
+/* Live table fullscreen wrapper */
+.liveTableFullscreenWrapper {
+  position: relative;
+  background-color: white;
+  border-radius: 1rem;
+}
+
+.fullscreenTableButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #ea8b66 0%, #a25b4b 100%);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.fullscreenTableButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Fullscreen mode: only the live table wrapper is fullscreened */
+.liveTableFullscreenWrapper:fullscreen,
+.liveTableFullscreenWrapper:-webkit-full-screen,
+.liveTableFullscreenWrapper:-ms-fullscreen {
+  width: 100vw !important;
+  min-width: 100vw;
+  height: 100vh !important;
+  height: 100dvh !important;
+  min-height: 100vh !important;
+  min-height: 100dvh !important;
+  margin: 0;
+  padding: 2rem;
+  background: linear-gradient(135deg, #c19b88 0%, #a27c4b 100%);
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.liveTableFullscreenWrapper:fullscreen .fullscreenTableButton,
+.liveTableFullscreenWrapper:-webkit-full-screen .fullscreenTableButton,
+.liveTableFullscreenWrapper:-ms-fullscreen .fullscreenTableButton {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+}

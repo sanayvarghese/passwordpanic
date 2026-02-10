@@ -1,0 +1,121 @@
+.resultsContainer {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  margin-top: 2rem;
+}
+
+.title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.resultsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.resultsTable thead {
+  background: linear-gradient(135deg, #c19b88 0%, #a27c4b 100%);
+  color: white;
+}
+
+.resultsTable th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.resultsTable tbody tr {
+  border-bottom: 1px solid #eee;
+  transition: background 0.2s;
+}
+
+.resultsTable tbody tr:hover {
+  background: #f5f5f5;
+}
+
+.resultsTable tbody tr.winner {
+  background: #e8f5e9;
+  font-weight: 600;
+}
+
+.resultsTable td {
+  padding: 1rem;
+}
+
+.rank {
+  font-weight: 600;
+  color: #667eea;
+  width: 80px;
+  text-align: center;
+}
+
+.playerName {
+  font-weight: 500;
+  color: #333;
+}
+
+.rulesCell {
+  padding: 0.75rem;
+}
+
+.ruleBoxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.ruleBox {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: transform 0.2s;
+}
+
+.ruleBox:hover {
+  transform: scale(1.1);
+}
+
+.completedBox {
+  background: #4caf50;
+  color: white;
+}
+
+.incompleteBox {
+  background: #e0e0e0;
+  color: #666;
+  border: 1px solid #bdbdbd;
+}
+
+.time {
+  font-family: "Courier New", monospace;
+  color: #666;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .resultsTable {
+    font-size: 0.85rem;
+  }
+
+  .resultsTable th,
+  .resultsTable td {
+    padding: 0.75rem 0.5rem;
+  }
+}

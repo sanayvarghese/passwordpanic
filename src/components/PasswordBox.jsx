@@ -29,7 +29,7 @@ function setCaretPosition(el, pos){
 
 
 function PasswordBox(props, ref) {
-    const {pswd, setPswd} = props;
+    const {pswd, setPswd, disabled = false} = props;
     const caretPos = useRef();
     
     // https://saturncloud.io/blog/creating-a-textarea-with-autoresize/
@@ -64,6 +64,7 @@ function PasswordBox(props, ref) {
                 rows={1}
                 style={{resize: 'none', width: "100%", overflowY: 'hidden'}}
                 spellCheck="false"
+                disabled={disabled}
             />
             {/* <div>{caretPos.current && `${caretPos.current.start}, ${caretPos.current.end}`}</div> */}
         </>
