@@ -2,14 +2,14 @@ import { WS_URL } from "@/lib/ws";
 import Rule from "../Rule";
 
 async function get_todays_wordle() {
-  let url = WS_URL.replace("wss", "https") + "/wordle";
+  // let url = WS_URL.replace("wss", "http") + "/wordle";
+  let url = "http://localhost:3001/wordle";
   const options = {
     method: "GET",
   };
 
   let response = await fetch(url, options);
   let json = await response.json();
-  json = JSON.parse(json.contents);
   console.log("WORDLE: ", json);
 
   return json.solution;
