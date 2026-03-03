@@ -30,12 +30,15 @@ function CreateRoomPageInner() {
     websocket.onopen = () => {
       console.log("Connected to server");
       const timeLimit = parseInt(searchParams.get("timeLimit")) || 60;
+      const maxSkips = parseInt(searchParams.get("maxSkips"));
+      const skipCount = isNaN(maxSkips) ? 2 : maxSkips;
       if (websocket.readyState === WebSocket.OPEN && hasCreatedRef.current) {
         websocket.send(
           JSON.stringify({
             type: "create_room",
             playerName: playerName,
             timeLimit: timeLimit,
+            maxSkips: skipCount,
           }),
         );
       }

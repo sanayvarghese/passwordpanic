@@ -1,8 +1,7 @@
-import { WS_URL } from "@/lib/ws";
 import Rule from "../Rule";
 
 async function get_todays_wordle() {
-  let url = SERVER_URL + "/wordle";
+  let url = "/api/wordle";
   const options = {
     method: "GET",
   };

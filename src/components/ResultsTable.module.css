@@ -102,6 +102,12 @@
   border: 1px solid #bdbdbd;
 }
 
+.skippedBox {
+  background: #2196f3;
+  color: white;
+  border: 1px solid #1976d2;
+}
+
 .time {
   font-family: "Courier New", monospace;
   color: #666;

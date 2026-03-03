@@ -1,39 +1,41 @@
 import Rule from "../Rule";
-import { useRef } from "react";
+import imgCentralLawn from "../../img/central lawn.jpeg";
+import imgSouvenirsShop from "../../img/souvenirs shop.jpeg";
+
+const imageData = [
+  { src: imgCentralLawn, name: "central lawn" },
+  { src: imgSouvenirsShop, name: "souvenirs shop" },
+];
 
 export default class RuleRSET extends Rule {
   constructor() {
-    super(
-      "Your password must include the formal name of this location at RSET (e.g. Rajagiri School of Engineering and Technology): ",
-    );
+    super("Your password must include the name of this location at RSET: ");
+
+    const chosen = imageData[Math.floor(Math.random() * imageData.length)];
+    this.placeName = chosen.name;
+    this.placeWords = chosen.name.toLowerCase().split(/\s+/);
 
     this.renderItem = () => (
-      <div
+      <img
+        src={chosen.src.src || chosen.src}
+        alt="RSET Location"
         style={{
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "120px",
-          height: "80px",
-          backgroundColor: "#3b82f6",
+          display: "inline-block",
+          verticalAlign: "middle",
+          width: "200px",
+          height: "130px",
+          objectFit: "cover",
           borderRadius: "8px",
-          color: "white",
-          fontSize: "12px",
-          fontWeight: "bold",
+          border: "2px solid rgba(255, 255, 255, 0.3)",
           margin: "10px",
-          textAlign: "center",
-          padding: "5px",
         }}
-      >
-        RSET Location
-        <br />
-        (Image Placeholder)
-      </div>
+      />
     );
   }
 
   check(txt) {
-    let regex = /Rajagiri School of Engineering and Technology/i;
-    return regex.test(txt);
+    const lower = txt.toLowerCase();
+    // All words in the place name must appear in the password
+    return this.placeWords.every((word) => lower.includes(word));
   }
 }

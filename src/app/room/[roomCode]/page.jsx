@@ -297,6 +297,7 @@ export default function RoomPage() {
             key={`live-table-${stats.players.map((p) => `${p.id}-${p.rulesCompleted}-${p.ruleStates?.length || 0}`).join("-")}`}
             players={stats.players}
             startedAt={stats.startedAt}
+            timeLimit={stats.timeLimit}
           />
         </div>
       )}

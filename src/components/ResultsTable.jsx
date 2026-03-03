@@ -34,6 +34,7 @@ export default function ResultsTable({ finalStats, reason }) {
       rules.push({
         num: i,
         completed: ruleState ? ruleState.correct : false,
+        skipped: ruleState ? ruleState.skipped : false,
       });
     }
 
@@ -42,10 +43,10 @@ export default function ResultsTable({ finalStats, reason }) {
         {rules.map((rule) => (
           <div
             key={rule.num}
-            className={`${styles.ruleBox} ${rule.completed ? styles.completedBox : styles.incompleteBox}`}
-            title={`Rule ${rule.num}${rule.completed ? " - Completed" : " - Incomplete"}`}
+            className={`${styles.ruleBox} ${rule.skipped ? styles.skippedBox : rule.completed ? styles.completedBox : styles.incompleteBox}`}
+            title={`Rule ${rule.num}${rule.skipped ? " - Skipped" : rule.completed ? " - Completed" : " - Incomplete"}`}
           >
-            {rule.completed ? "✓" : rule.num}
+            {rule.skipped ? "⏭" : rule.completed ? "✓" : rule.num}
           </div>
         ))}
       </div>

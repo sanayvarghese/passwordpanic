@@ -124,31 +124,37 @@ const elementsData = {
 export default class RuleAtomicSum extends Rule {
   constructor() {
     super(
-      "The elements in your password must have atomic numbers that add up to 200.",
+      "The two character element symbols (Au, Ag) in your password must add up to 25.",
     );
   }
 
   check = (txt) => {
-    // Find all valid element symbols in the password text
     let sum = 0;
 
-    // Using a regex to match element symbols. Match longest first (2 chars), then 1 char.
-    // However, some overlapping might occur if not careful, e.g. "He" vs "H" and "e".
-    // We'll iterate over the text and greedily extract elements.
-    // Or we simply extract all element symbols using a global match.
-    // Wait, the rule usually implies matching any substring that corresponds to an element.
-    // Let's do a strict match: check all occurrences of all element symbols.
-
-    let regexStr = Object.keys(elementsData)
-      .sort((a, b) => b.length - a.length)
+    const elementNames = Object.keys(elementsData);
+    // Filter to only 2-character elements
+    const elementPattern = elementNames
+      .filter((el) => el.length === 2)
       .join("|");
-    let regex = new RegExp("(" + regexStr + ")", "g");
+
+    // Match optional minus sign followed by a 2-character element symbol
+    const regex = new RegExp("-?(" + elementPattern + ")", "g");
 
     let matches = txt.match(regex) || [];
 
-    for (let element of matches) {
-      sum += elementsData[element];
+    for (let match of matches) {
+      if (match.startsWith("-")) {
+        const symbol = match.substring(1);
+        if (elementsData[symbol] !== undefined) {
+          sum -= elementsData[symbol];
+        }
+      } else {
+        if (elementsData[match] !== undefined) {
+          sum += elementsData[match];
+        }
+      }
     }
+    console.log(sum);
 
     return sum === 200;
   };

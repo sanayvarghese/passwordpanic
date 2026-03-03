@@ -26,8 +26,6 @@ const periodicSymbols2 = Object.keys(elementsData).filter(
 );
 
 var rules = [
-  new RuleWordle(),
-
   // 1
   new Rule(
     "Your password must be at least 6 characters.",
@@ -75,42 +73,59 @@ var rules = [
     }
     return false;
   }),
+
   // 11
-  new RuleEarthquake(),
-  // 12
   new Rule("Your password must include the name of a continent.", (t) =>
     /asia|europe|africa|australia|oceania|north america|south america|antarctica/i.test(
       t,
     ),
   ),
-  // 13
+  // 12
   new RuleRSET(),
-  // 14
+  // 13
   new RuleHexColor(),
-  // 15
+  // 14
   new Rule(
     "Your password must include a two-letter symbol from the periodic table.",
     (t) => {
       return periodicSymbols2.some((symbol) => t.includes(symbol));
     },
   ),
-  // 16
-  new RuleAtomicSum(),
-  // 17
-  new RuleWordle(),
-  // 18
-  new RuleRiddle(),
-  // 19
-  new RuleSlidingPuzzle(),
-  // 20
-  new RuleMorse(),
-  // 21
+  // 15
   new Rule(
-    "Your password must have as many vowels as consonants.",
-    (t) =>
-      (t.match(/[aeiou]/gi) || []).length ===
-      (t.match(/[bcdfghjklmnpqrstvwxyz]/gi) || []).length,
+    "The number of vowels in your password must equal the number of special characters.",
+    (t) => {
+      let vowelsCount = (t.match(/[aeiou]/gi) || []).length;
+      // Using [^a-zA-Z0-9\s] to match special characters (ignoring letters, numbers, and spaces)
+      let specialCount = (t.match(/[^a-zA-Z0-9\s]/g) || []).length;
+      return vowelsCount === specialCount;
+    },
   ),
+  // 16
+  new RuleWordle(),
+
+  // 17
+  new RuleRiddle(),
+
+  // 18
+  new RuleMorse(),
+  // 19
+  new RuleEarthquake(),
+
+  // 20
+  new Rule(
+    "Your password must contain an emoji in the exact center of the password.",
+    (t) => {
+      const emojiRegex = /\p{Emoji_Presentation}|\p{Extended_Pictographic}/gu;
+      const chars = [...t];
+      if (chars.length === 0) return false;
+      const centerIndex = Math.floor(chars.length / 2);
+      return emojiRegex.test(chars[centerIndex]);
+    },
+  ),
+  // 21
+  new RuleSlidingPuzzle(),
+
   // 22
   new Rule("The length of your password must be a prime number.", (t) =>
     isPrime(t.length),
@@ -121,6 +136,7 @@ var rules = [
     let r = new RegExp(`${l}`);
     return r.test(t);
   }),
+
   // 24
   new Rule("Your password must include the current time.", (t) => {
     let d = new Date();

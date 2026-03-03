@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./LiveTable.module.css";
 
-export default function LiveTable({ players, startedAt }) {
+export default function LiveTable({ players, startedAt, timeLimit }) {
   const [currentTime, setCurrentTime] = useState(Date.now());
   const [forceUpdate, setForceUpdate] = useState(0);
 
@@ -63,6 +63,7 @@ export default function LiveTable({ players, startedAt }) {
       rules.push({
         num: i,
         completed: ruleState ? ruleState.correct : false,
+        skipped: ruleState ? ruleState.skipped : false,
       });
     }
 
@@ -72,6 +73,7 @@ export default function LiveTable({ players, startedAt }) {
         rules.push({
           num: i,
           completed: false,
+          skipped: false,
         });
       }
     }
@@ -81,10 +83,10 @@ export default function LiveTable({ players, startedAt }) {
         {rules.map((rule) => (
           <div
             key={`${player.id}-rule-${rule.num}`}
-            className={`${styles.ruleBox} ${rule.completed ? styles.completedBox : styles.incompleteBox}`}
-            title={`Rule ${rule.num}${rule.completed ? " - Completed" : " - Incomplete"}`}
+            className={`${styles.ruleBox} ${rule.skipped ? styles.skippedBox : rule.completed ? styles.completedBox : styles.incompleteBox}`}
+            title={`Rule ${rule.num}${rule.skipped ? " - Skipped" : rule.completed ? " - Completed" : " - Incomplete"}`}
           >
-            {rule.completed ? "✓" : rule.num}
+            {rule.skipped ? "⏭" : rule.completed ? "✓" : rule.num}
           </div>
         ))}
       </div>
@@ -104,7 +106,34 @@ export default function LiveTable({ players, startedAt }) {
 
   return (
     <div className={styles.liveTableContainer}>
-      <h2 className={styles.title}>Live Table</h2>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "0.5rem",
+        }}
+      >
+        <h2 className={styles.title} style={{ margin: 0 }}>
+          Live Table
+        </h2>
+        {timeLimit && startedAt && (
+          <span
+            style={{
+              fontFamily: "'Courier New', monospace",
+              fontSize: "1.1rem",
+              fontWeight: 600,
+              color:
+                timeLimit - (currentTime - startedAt) < 60000
+                  ? "#ff6b6b"
+                  : "#666",
+            }}
+          >
+            ⏱ {formatTime(Math.max(0, timeLimit - (currentTime - startedAt)))}{" "}
+            left
+          </span>
+        )}
+      </div>
       <div className={styles.tableWrapper}>
         <table className={styles.liveTable}>
           <thead>

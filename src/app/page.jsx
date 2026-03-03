@@ -18,6 +18,7 @@ export default function MultiplayerPage() {
   const [playerName, setPlayerName] = useState("");
   const [roomCode, setRoomCode] = useState("");
   const [timeLimit, setTimeLimit] = useState(60); // default 60 minutes
+  const [maxSkips, setMaxSkips] = useState(2); // default 2 skips
   const router = useRouter();
 
   const handleCreateRoom = () => {
@@ -26,7 +27,7 @@ export default function MultiplayerPage() {
       return;
     }
     router.push(
-      `/create?name=${encodeURIComponent(playerName)}&timeLimit=${timeLimit}`,
+      `/create?name=${encodeURIComponent(playerName)}&timeLimit=${timeLimit}&maxSkips=${maxSkips}`,
     );
   };
 
@@ -95,6 +96,23 @@ export default function MultiplayerPage() {
             />
             <small style={{ color: "#666", fontSize: "0.85rem" }}>
               Default: 60 minutes
+            </small>
+          </div>
+          <div className={styles.inputGroup}>
+            <label>Skips per Player:</label>
+            <input
+              type="number"
+              value={maxSkips}
+              onChange={(e) =>
+                setMaxSkips(Math.max(0, parseInt(e.target.value) || 2))
+              }
+              placeholder="2"
+              className={styles.input}
+              min="0"
+              max="20"
+            />
+            <small style={{ color: "#666", fontSize: "0.85rem" }}>
+              Default: 2 skips. Players can skip difficult rules.
             </small>
           </div>
           <div className={styles.buttonGroup}>

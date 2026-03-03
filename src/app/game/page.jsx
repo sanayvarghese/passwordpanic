@@ -38,6 +38,9 @@ function MultiplayerGameInner() {
   const myCompletionTime = useRef(null); // When player completes, store their time
   const wsRef = useRef(null);
   const [confettiTriggered, setConfettiTriggered] = useState(false);
+  const [maxSkips, setMaxSkips] = useState(2);
+  const [skipsUsed, setSkipsUsed] = useState(0);
+  const [skippedRules, setSkippedRules] = useState(new Set());
 
   // initialization rule numbers
   useEffect(() => {
@@ -79,13 +82,21 @@ function MultiplayerGameInner() {
         setPlayerName(data.playerName);
         setGameStartedAt(data.startedAt || null);
         setTimeLimit(data.timeLimit || null);
+        if (data.maxSkips !== undefined) setMaxSkips(data.maxSkips);
+        if (data.skipsUsed !== undefined) setSkipsUsed(data.skipsUsed);
+        if (data.skippedRules) setSkippedRules(new Set(data.skippedRules));
         if (data.gameEnded) {
           setTimeLeft(null);
         }
       } else if (data.type === "game_started") {
         setGameStartedAt(data.startedAt || Date.now());
         setTimeLimit(data.timeLimit || null);
+        if (data.maxSkips !== undefined) setMaxSkips(data.maxSkips);
         console.log("Game started!");
+      } else if (data.type === "rule_skipped") {
+        setSkippedRules((prev) => new Set([...prev, data.ruleNum]));
+        setSkipsUsed(data.skipsUsed);
+        if (data.maxSkips !== undefined) setMaxSkips(data.maxSkips);
       } else if (data.type === "game_ended") {
         setGameEnded(true);
         setFinalStats(data.finalStats);
@@ -141,6 +152,13 @@ function MultiplayerGameInner() {
     return `${minutes}:${secs.toString().padStart(2, "0")}`;
   };
 
+  // Re-check rules when skippedRules changes so the next rule unlocks immediately
+  useEffect(() => {
+    if (skippedRules.size > 0 && ruleState.length > 0) {
+      checkRules(pswd);
+    }
+  }, [skippedRules]);
+
   // callback on textbox change, check rules along with setPswd
   function setPswdAndCheckRules(txt) {
     setPswd(txt);
@@ -173,7 +191,11 @@ function MultiplayerGameInner() {
         }
       }
 
-      rules[i].correct = rules[i].check(txt);
+      if (skippedRules.has(rules[i].num)) {
+        rules[i].correct = true;
+      } else {
+        rules[i].correct = rules[i].check(txt);
+      }
       if (rules[i].correct) {
         solved_count++;
       }
@@ -239,6 +261,7 @@ function MultiplayerGameInner() {
           num: r.num || index + 1,
           correct: updatedRule.correct || false,
           unlocked: updatedRule.unlocked || false,
+          skipped: skippedRules.has(r.num || index + 1),
         };
       });
 
@@ -271,6 +294,19 @@ function MultiplayerGameInner() {
       rules[num].regenerate();
       setRuleState(rules);
     }
+  }
+
+  function skipRule(num) {
+    if (skipsUsed >= maxSkips) return;
+    if (skippedRules.has(num)) return;
+    if (!ws || ws.readyState !== WebSocket.OPEN) return;
+
+    ws.send(
+      JSON.stringify({
+        type: "skip_rule",
+        ruleNum: num,
+      }),
+    );
   }
 
   return (
@@ -332,13 +368,21 @@ function MultiplayerGameInner() {
         />
         <div style={{ color: "white" }}>
           level: {max_unlocked_rules.current}
+          {maxSkips > 0 && (
+            <span style={{ marginLeft: "1rem", opacity: 0.8 }}>
+              skips: {skipsUsed}/{maxSkips}
+            </span>
+          )}
         </div>
         <div ref={aaParent}>
           {allSolved && (
             <RuleBox
               heading={"Congratulations!"}
               msg={
-                "You have successfully created a password. \u{1F389}\u{1F389}"
+                "You have successfully created a password. \u{1F389}\u{1F389}" +
+                (myCompletionTime.current
+                  ? `\nTime taken: ${formatTime(myCompletionTime.current)}`
+                  : "")
               }
               correct={true}
             />
@@ -347,19 +391,30 @@ function MultiplayerGameInner() {
             .filter((r) => r.unlocked)
             .sort(sort_rules)
             .map((r) => {
+              const isSkipped = skippedRules.has(r.num);
+              const canSkip =
+                !isSkipped &&
+                !r.correct &&
+                r.unlocked &&
+                skipsUsed < maxSkips &&
+                !gameEnded &&
+                gameStartedAt;
               return (
                 <RuleBox
                   key={r.num}
                   heading={`Rule ${r.num}`}
                   msg={r.msg}
-                  correct={r.correct}
+                  correct={r.correct || isSkipped}
+                  skipped={isSkipped}
+                  canSkip={canSkip}
+                  onSkip={() => skipRule(r.num)}
                   renderItem={r.renderItem}
                   propsToChild={{
                     pswd,
                     setPswd: setPswdAndCheckRules,
                     shakePasswordBox,
                     regenerateRule,
-                    correct: r.correct,
+                    correct: r.correct || isSkipped,
                   }}
                 />
               );
