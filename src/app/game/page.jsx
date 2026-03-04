@@ -367,7 +367,7 @@ function MultiplayerGameInner() {
           ref={pswdBoxRef}
           disabled={gameEnded}
         />
-        <div style={{ color: "white" }}>
+        <div style={{ color: "black" }}>
           level: {max_unlocked_rules.current}
           {maxSkips > 0 && (
             <span style={{ marginLeft: "1rem", opacity: 0.8 }}>
