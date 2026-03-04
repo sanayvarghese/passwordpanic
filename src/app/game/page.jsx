@@ -297,6 +297,7 @@ function MultiplayerGameInner() {
   }
 
   function skipRule(num) {
+    if (num >= 15) return;
     if (skipsUsed >= maxSkips) return;
     if (skippedRules.has(num)) return;
     if (!ws || ws.readyState !== WebSocket.OPEN) return;
@@ -397,6 +398,7 @@ function MultiplayerGameInner() {
                 !r.correct &&
                 r.unlocked &&
                 skipsUsed < maxSkips &&
+                r.num < 15 &&
                 !gameEnded &&
                 gameStartedAt;
               return (

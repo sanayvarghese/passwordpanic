@@ -31,6 +31,7 @@ var rules = [
     "Your password must be at least 6 characters.",
     (t) => t?.length >= 6,
   ),
+
   // 2
   new Rule(
     "Your password must include an uppercase and a lowercase letter.",

@@ -1,7 +1,13 @@
 import Rule from "../Rule";
 
 async function get_todays_wordle() {
-  let url = "/api/wordle";
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = ("0" + (d.getMonth() + 1)).slice(-2);
+  const day = ("0" + d.getDate()).slice(-2);
+  const dateStr = `${year}-${month}-${day}`;
+
+  let url = `/api/wordle?date=${dateStr}`;
   const options = {
     method: "GET",
   };

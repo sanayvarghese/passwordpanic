@@ -123,9 +123,7 @@ const elementsData = {
 
 export default class RuleAtomicSum extends Rule {
   constructor() {
-    super(
-      "The two character element symbols (Au, Ag) in your password must add up to 25.",
-    );
+    super("The element symbols in your password must add up to 25.");
   }
 
   check = (txt) => {
@@ -133,9 +131,7 @@ export default class RuleAtomicSum extends Rule {
 
     const elementNames = Object.keys(elementsData);
     // Filter to only 2-character elements
-    const elementPattern = elementNames
-      .filter((el) => el.length === 2)
-      .join("|");
+    const elementPattern = elementNames.join("|");
 
     // Match optional minus sign followed by a 2-character element symbol
     const regex = new RegExp("-?(" + elementPattern + ")", "g");
