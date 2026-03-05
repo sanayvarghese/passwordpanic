@@ -3,7 +3,7 @@ import Rule from "../Rule";
 export default class RuleSum extends Rule {
   constructor() {
     super("The digits in your password must add up to ");
-    this.target = 20;
+    this.target = Math.floor(Math.random() * 31) + 20; // 20 to 50
     this.renderItem = () => <span>{this.target}.</span>;
   }
 

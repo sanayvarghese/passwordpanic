@@ -166,10 +166,10 @@ function MultiplayerGameInner() {
   }
 
   //check rules loop
-  function checkRules(txt) {
-    if (ruleState.length === 0 || gameEnded) return;
+  function checkRules(txt, currentRules = ruleState) {
+    if (currentRules.length === 0 || gameEnded) return;
 
-    let rules = [...ruleState];
+    let rules = [...currentRules];
 
     //base case, first rule
     if (!rules[0].unlocked && txt.length > 0) {
@@ -194,7 +194,11 @@ function MultiplayerGameInner() {
       if (skippedRules.has(rules[i].num)) {
         rules[i].correct = true;
       } else {
-        rules[i].correct = rules[i].check(txt);
+        rules[i].correct = rules[i].check(
+          txt,
+          max_unlocked_rules.current,
+          rules,
+        );
       }
       if (rules[i].correct) {
         solved_count++;
@@ -292,7 +296,8 @@ function MultiplayerGameInner() {
     let rules = [...ruleState];
     if ("regenerate" in rules[num]) {
       rules[num].regenerate();
-      setRuleState(rules);
+      // Re-evaluate all rules with the newly generated captcha
+      checkRules(pswd, rules);
     }
   }
 
@@ -417,6 +422,7 @@ function MultiplayerGameInner() {
                     shakePasswordBox,
                     regenerateRule,
                     correct: r.correct || isSkipped,
+                    rulesArray: ruleState,
                   }}
                 />
               );

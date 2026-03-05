@@ -7,9 +7,14 @@ import RuleTimeEmoji from "./RuleTimeEmoji/RuleTimeEmoji";
 import RuleSum from "./RuleSum/RuleSum";
 import RuleRomanSum from "./RuleRoman/RuleRomanSum";
 import RuleEarthquake from "./RuleEarthquake/RuleEarthquake";
-import RuleHexColor from "./RuleHexColor/RuleHexColor";
+import RuleCaptcha from "./RuleCaptcha/RuleCaptcha";
 import RuleRSET from "./RuleRSET/RuleRSET";
 import RuleAtomicSum, { elementsData } from "./RuleAtomicSum/RuleAtomicSum";
+import RuleBannedLetter from "./RuleBannedLetter/RuleBannedLetter";
+import RuleNoConsecutive from "./RuleNoConsecutive/RuleNoConsecutive";
+import RuleInactivitySwap from "./RuleInactivitySwap/RuleInactivitySwap";
+import RuleViolationChangeCaptcha from "./RuleViolationChangeCaptcha/RuleViolationChangeCaptcha";
+import RuleActiveRuleCount from "./RuleActiveRuleCount/RuleActiveRuleCount";
 
 function isPrime(num) {
   if (num <= 1) return false;
@@ -37,6 +42,7 @@ var rules = [
     "Your password must include an uppercase and a lowercase letter.",
     (t) => /[A-Z]/.test(t) && /[a-z]/.test(t),
   ),
+
   // 3
   new Rule("Your password must include a special character.", (t) =>
     /\W/.test(t),
@@ -84,7 +90,8 @@ var rules = [
   // 12
   new RuleRSET(),
   // 13
-  new RuleHexColor(),
+  new RuleMorse(),
+
   // 14
   new Rule(
     "Your password must include a two-letter symbol from the periodic table.",
@@ -107,9 +114,8 @@ var rules = [
 
   // 17
   new RuleRiddle(),
-
   // 18
-  new RuleMorse(),
+  new RuleCaptcha(),
   // 19
   new RuleEarthquake(),
 
@@ -128,17 +134,26 @@ var rules = [
   new RuleSlidingPuzzle(),
 
   // 22
+  new RuleBannedLetter(),
+  // 23
+  new RuleInactivitySwap(),
+  // 24
   new Rule("The length of your password must be a prime number.", (t) =>
     isPrime(t.length),
   ),
-  // 23
+  // 25
+  new RuleNoConsecutive(),
+  // 26
   new Rule("Your password must include the length of your password.", (t) => {
     let l = t.length;
     let r = new RegExp(`${l}`);
     return r.test(t);
   }),
 
-  // 24
+  // 27
+  new RuleViolationChangeCaptcha(),
+
+  // 28
   new Rule("Your password must include the current time.", (t) => {
     let d = new Date();
     let h24 = d.getHours();
@@ -152,7 +167,9 @@ var rules = [
 
     return t.includes(timeStr1) || t.includes(timeStr2) || t.includes(timeStr3);
   }),
-  // 25
+  // 29
+  new RuleActiveRuleCount(),
+  // 30
   new RuleTimeEmoji(),
 ];
 
