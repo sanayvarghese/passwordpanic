@@ -14,12 +14,27 @@ const climateCrisis = Press_Start_2P({
 });
 
 export default function MultiplayerPage() {
-  const [mode, setMode] = useState("select"); // 'select', 'create', 'join'
+  const [mode, setMode] = useState("join"); // default 'join'
   const [playerName, setPlayerName] = useState("");
   const [roomCode, setRoomCode] = useState("");
   const [timeLimit, setTimeLimit] = useState(60); // default 60 minutes
   const [maxSkips, setMaxSkips] = useState(2); // default 2 skips
   const router = useRouter();
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has("create")) {
+        const pwd = window.prompt("Enter admin password to create a room:");
+        if (pwd === process.env.NEXT_PUBLIC_PASSWORD) {
+          setMode("create");
+        } else {
+          alert("Incorrect password.");
+          router.replace("/"); // remove ?create from url
+        }
+      }
+    }
+  }, [router]);
 
   const handleCreateRoom = () => {
     if (!playerName.trim()) {
@@ -47,26 +62,6 @@ export default function MultiplayerPage() {
 
   return (
     <div className={styles.container}>
-      {mode === "select" && (
-        <div className={styles.selectMode}>
-          {/* <h2>Choose an option:</h2> */}
-          <div className={styles.buttonGroup}>
-            <button
-              onClick={() => setMode("create")}
-              className={styles.primaryButton}
-            >
-              Create Room
-            </button>
-            <button
-              onClick={() => setMode("join")}
-              className={styles.secondaryButton}
-            >
-              Join Room
-            </button>
-          </div>
-        </div>
-      )}
-
       {mode === "create" && (
         <div className={styles.formContainer}>
           <h2>Create a Game Room</h2>
@@ -120,10 +115,10 @@ export default function MultiplayerPage() {
               Create Room
             </button>
             <button
-              onClick={() => setMode("select")}
+              onClick={() => router.replace("/")}
               className={styles.secondaryButton}
             >
-              Back
+              Cancel
             </button>
           </div>
         </div>
@@ -158,12 +153,6 @@ export default function MultiplayerPage() {
           <div className={styles.buttonGroup}>
             <button onClick={handleJoinRoom} className={styles.primaryButton}>
               Join Room
-            </button>
-            <button
-              onClick={() => setMode("select")}
-              className={styles.secondaryButton}
-            >
-              Back
             </button>
           </div>
         </div>
