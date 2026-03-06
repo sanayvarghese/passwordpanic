@@ -42,7 +42,6 @@ var rules = [
     "Your password must include an uppercase and a lowercase letter.",
     (t) => /[A-Z]/.test(t) && /[a-z]/.test(t),
   ),
-
   // 3
   new Rule("Your password must include a special character.", (t) =>
     /\W/.test(t),

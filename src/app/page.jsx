@@ -115,7 +115,10 @@ export default function MultiplayerPage() {
               Create Room
             </button>
             <button
-              onClick={() => router.replace("/")}
+              onClick={() => {
+                router.replace("/");
+                setMode("join");
+              }}
               className={styles.secondaryButton}
             >
               Cancel
@@ -154,6 +157,58 @@ export default function MultiplayerPage() {
             <button onClick={handleJoinRoom} className={styles.primaryButton}>
               Join Room
             </button>
+          </div>
+          <div
+            style={{
+              marginTop: "2rem",
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{
+                textTransform: "uppercase",
+                fontSize: "0.9rem",
+                color: "#666",
+                fontWeight: "bold",
+              }}
+            >
+              Or
+            </div>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <button
+                onClick={() => router.push("/play")}
+                className={styles.secondaryButton}
+              >
+                Play Solo
+              </button>
+              {process.env.NEXT_PUBLIC_LOCK === "true" ? (
+                <button
+                  onClick={() => {
+                    const pwd = window.prompt(
+                      "Enter admin password to create a room:",
+                    );
+                    if (pwd === process.env.NEXT_PUBLIC_PASSWORD) {
+                      setMode("create");
+                    } else {
+                      alert("Incorrect password.");
+                    }
+                  }}
+                  className={styles.secondaryButton}
+                >
+                  Create Room 🔒
+                </button>
+              ) : (
+                <button
+                  onClick={() => setMode("create")}
+                  className={styles.secondaryButton}
+                >
+                  Create Room
+                </button>
+              )}
+            </div>
           </div>
         </div>
       )}

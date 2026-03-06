@@ -1,9 +1,44 @@
 import React, { useEffect } from "react";
 import Rule from "../Rule";
 
-function InactivityComponent({ pswd, setPswd, shakePasswordBox }) {
+function InactivityComponent({
+  pswd,
+  setPswd,
+  shakePasswordBox,
+  swapAnimation,
+  rulesArray,
+  setRuleActive,
+}) {
+  const [isActive, setIsActive] = React.useState(false);
+
   useEffect(() => {
+    setRuleActive(isActive);
+  }, [isActive, setRuleActive]);
+
+  // 2 seconds grace period or until first keystroke
+  useEffect(() => {
+    if (isActive) return;
+
+    if (pswd && pswd.length > 0) {
+      setIsActive(true);
+      return;
+    }
+
+    const graceTimer = setTimeout(() => {
+      setIsActive(true);
+    }, 2000);
+    return () => clearTimeout(graceTimer);
+  }, [isActive, pswd]);
+
+  useEffect(() => {
+    if (!isActive) return;
     if (!pswd || pswd.length < 2) return;
+
+    // Check if all rules are completed or skipped
+    if (rulesArray && rulesArray.length > 0) {
+      const allDone = rulesArray.every((r) => r.correct);
+      if (allDone) return;
+    }
 
     const timeout = setTimeout(() => {
       // safely split into grapheme clusters to support complex emojis/flags
@@ -25,16 +60,24 @@ function InactivityComponent({ pswd, setPswd, shakePasswordBox }) {
       const newPswd = charArray.join("");
       setPswd(newPswd);
 
-      // Optionally shake the box to notify user
-      shakePasswordBox(true);
-      setTimeout(() => shakePasswordBox(false), 500);
-    }, 10000); // 10s
+      // Flash the box for swap
+      if (typeof swapAnimation === "function") {
+        swapAnimation();
+      } else {
+        shakePasswordBox(true);
+        setTimeout(() => shakePasswordBox(false), 500);
+      }
+    }, 10000); // 10s inactivity limit
 
     return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pswd]);
+  }, [pswd, isActive, rulesArray]);
 
-  return <span style={{ marginLeft: "10px", color: "orange" }}>[Active]</span>;
+  return (
+    <span style={{ marginLeft: "10px", color: isActive ? "orange" : "gray" }}>
+      {isActive ? "[Active]" : "[Starting...]"}
+    </span>
+  );
 }
 
 export default class RuleInactivitySwap extends Rule {
@@ -43,18 +86,31 @@ export default class RuleInactivitySwap extends Rule {
       "If there is a inactivity for 10s random characters swap each other.",
     );
 
-    this.renderItem = ({ pswd, setPswd, shakePasswordBox }) => {
+    this.isActive = false;
+
+    this.renderItem = ({
+      pswd,
+      setPswd,
+      shakePasswordBox,
+      swapAnimation,
+      rulesArray,
+    }) => {
       return (
         <InactivityComponent
           pswd={pswd}
           setPswd={setPswd}
           shakePasswordBox={shakePasswordBox}
+          swapAnimation={swapAnimation}
+          rulesArray={rulesArray}
+          setRuleActive={(active) => {
+            this.isActive = active;
+          }}
         />
       );
     };
   }
 
   check() {
-    return true; // The rule is inherently always 'correct' state, as it's an action enforcer
+    return this.isActive;
   }
 }

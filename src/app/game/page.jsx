@@ -290,6 +290,13 @@ function MultiplayerGameInner() {
     }
   }
 
+  function swapAnimation() {
+    pswdBoxRef.current?.classList.add("swap-anim");
+    setTimeout(() => {
+      pswdBoxRef.current?.classList.remove("swap-anim");
+    }, 500);
+  }
+
   function regenerateRule(num) {
     console.log("regenerate", num);
     num--; //change to rule index
@@ -420,6 +427,7 @@ function MultiplayerGameInner() {
                     pswd,
                     setPswd: setPswdAndCheckRules,
                     shakePasswordBox,
+                    swapAnimation,
                     regenerateRule,
                     correct: r.correct || isSkipped,
                     rulesArray: ruleState,
