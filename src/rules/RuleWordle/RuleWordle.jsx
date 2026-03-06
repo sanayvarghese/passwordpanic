@@ -16,7 +16,7 @@ async function get_todays_wordle() {
   let json = await response.json();
   console.log("WORDLE: ", json);
 
-  return json.solution;
+  return json.solution ?? "swoop";
 }
 
 export default class RuleWordle extends Rule {
