@@ -5,6 +5,7 @@ export const metadata = {
 };
 import styles from "./page.module.css";
 import { Press_Start_2P } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 
 const climateCrisis = Press_Start_2P({
   subsets: ["latin"],
@@ -29,6 +30,7 @@ export default function RootLayout({ children }) {
           </div>
         </div>
         {children}
+        <Analytics />
       </body>
     </html>
   );
