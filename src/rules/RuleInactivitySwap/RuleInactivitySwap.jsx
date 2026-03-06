@@ -11,24 +11,23 @@ function InactivityComponent({
 }) {
   const [isActive, setIsActive] = React.useState(false);
 
-  useEffect(() => {
-    setRuleActive(isActive);
-  }, [isActive, setRuleActive]);
-
   // 2 seconds grace period or until first keystroke
   useEffect(() => {
     if (isActive) return;
 
     if (pswd && pswd.length > 0) {
+      setRuleActive(true);
       setIsActive(true);
       return;
     }
 
     const graceTimer = setTimeout(() => {
+      setRuleActive(true);
       setIsActive(true);
+      setPswd(pswd || "");
     }, 2000);
     return () => clearTimeout(graceTimer);
-  }, [isActive, pswd]);
+  }, [isActive, pswd, setPswd, setRuleActive]);
 
   useEffect(() => {
     if (!isActive) return;

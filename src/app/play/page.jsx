@@ -28,7 +28,7 @@ export default function SoloGame() {
   const [confettiTriggered, setConfettiTriggered] = useState(false);
 
   // Set default values for solo game
-  const maxSkips = 2;
+  const maxSkips = 0;
   const [skipsUsed, setSkipsUsed] = useState(0);
   const [skippedRules, setSkippedRules] = useState(new Set());
 

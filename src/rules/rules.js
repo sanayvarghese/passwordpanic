@@ -8,13 +8,13 @@ import RuleSum from "./RuleSum/RuleSum";
 import RuleRomanSum from "./RuleRoman/RuleRomanSum";
 import RuleEarthquake from "./RuleEarthquake/RuleEarthquake";
 import RuleCaptcha from "./RuleCaptcha/RuleCaptcha";
-import RuleRSET from "./RuleRSET/RuleRSET";
-import RuleAtomicSum, { elementsData } from "./RuleAtomicSum/RuleAtomicSum";
+import { elementsData } from "./RuleAtomicSum/RuleAtomicSum";
 import RuleBannedLetter from "./RuleBannedLetter/RuleBannedLetter";
 import RuleNoConsecutive from "./RuleNoConsecutive/RuleNoConsecutive";
 import RuleInactivitySwap from "./RuleInactivitySwap/RuleInactivitySwap";
 import RuleViolationChangeCaptcha from "./RuleViolationChangeCaptcha/RuleViolationChangeCaptcha";
 import RuleActiveRuleCount from "./RuleActiveRuleCount/RuleActiveRuleCount";
+import RuleLocation from "./RuleLocation/RuleLocation";
 
 function isPrime(num) {
   if (num <= 1) return false;
@@ -87,7 +87,7 @@ var rules = [
     ),
   ),
   // 12
-  new RuleRSET(),
+  new RuleLocation(),
   // 13
   new RuleMorse(),
 

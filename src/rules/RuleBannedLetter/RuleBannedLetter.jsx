@@ -40,9 +40,7 @@ function BannedLetterComponent({ bannedChar, setBannedChar, pswd, setPswd }) {
 
 export default class RuleBannedLetter extends Rule {
   constructor() {
-    super(
-      "Your password cannot contain this banned letter (Wordle exception applies): ",
-    );
+    super("Your password cannot contain this banned letter: ");
     this.bannedChar = null;
 
     this.renderItem = ({ pswd, setPswd }) => (
